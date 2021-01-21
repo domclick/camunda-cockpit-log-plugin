@@ -1,0 +1,37 @@
+<div class="row log-plugin" ng-controller="logProcessDefinitionTabCtrl">
+    <div cam-searchable-area
+         config="searchConfig"
+         on-search-change="onSearchChange(query, pages)"
+         loading-state="loadingState"
+         text-empty="textEmpty"
+         storage-group="'ANU'"
+         blocked="blocked">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <table class="table table-hover cam-table">
+                <thead cam-sortable-table-header
+                       default-sort-by="time"
+                       default-sort-order="asc"
+                       sorting-id="admin-sorting-logs"
+                       on-sort-change="onSortChanged(sorting)"
+                       on-sort-initialized="onSortInitialized(sorting)">
+                <tr>
+                    <th class="level">Level</th>
+                    <th class="businessKey">Business Key</th>
+                    <th class="message">Message</th>
+                    <th class="activityName">Activity Name</th>
+                    <th class="time">Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="log in logs">
+                    <td>{{ log.level }}</td>
+                    <td>{{ log.businessKey }}</td>
+                    <td>{{ log.message }}</td>
+                    <td>{{ log.activityName }}</td>
+                    <td>{{ log.time }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
