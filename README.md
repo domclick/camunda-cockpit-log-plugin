@@ -1,15 +1,17 @@
-##Cockpit Log Plugin
+[![Actions Status](https://github.com/domclick/camunda-cockpit-log-plugin/workflows/Java%20CI/badge.svg)](https://github.com/domclick/camunda-cockpit-log-plugin/actions)
+
+## Cockpit Log Plugin
 This plugin allows to view logs from kibana per process instances in case if logs have tracing info like process instance business key, activity id, activity name in their header. You could achieve this behavior using project [Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) of version 3 and higher.
 
 The plugin adds Logs tab to Process Definition and Process Instance view pages.
 ![Logs tab](https://github.com/domclick/camunda-cockpit-log-plugin/blob/master/src/main/resources/log-tab.png)
 
-##Build Requirements
+## Build Requirements
  - **Java** v8 and higher
  - **Maven** v3 and higher
  - **Camunda** 7.11.0
  - **Spring** 3 and higher
-##Usage
+## Usage
 Just add next properties to your `application.properties`(`application.yml`) file:
  - kibana.scheme - provides http or https
  - kibana.host - host of your kibana server
