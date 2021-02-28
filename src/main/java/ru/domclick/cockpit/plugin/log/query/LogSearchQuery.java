@@ -24,13 +24,14 @@ import javax.net.ssl.TrustManager;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Builder(builderClassName = "LogSearchQueryInternalBuilder", builderMethodName = "internalBuilder")
 public class LogSearchQuery implements AutoCloseable {
 
     private String businessKey;
-    private String procDefKey;
-    private String activityId;
+    private List<String> procDefKeys;
+    private List<String> activityIds;
     private RestHighLevelClient client;
 
     private void init() throws NoSuchAlgorithmException, KeyManagementException {
@@ -68,13 +69,23 @@ public class LogSearchQuery implements AutoCloseable {
             boolQueryBuilder.filter()
                     .add(QueryBuilders.matchPhraseQuery(KibanaConfiguration.BUSINESS_KEY, businessKey));
         }
-        if (!StringUtils.isEmpty(procDefKey)) {
-            boolQueryBuilder.filter()
-                    .add(QueryBuilders.matchPhraseQuery(KibanaConfiguration.SCENARIO_ID, procDefKey));
+        if (procDefKeys != null) {
+            val procDefKeySubQuery = QueryBuilders.boolQuery();
+
+            procDefKeys.forEach(procDefKey ->
+                    procDefKeySubQuery.should()
+                            .add(QueryBuilders.matchPhraseQuery(KibanaConfiguration.SCENARIO_ID, procDefKey)));
+
+            boolQueryBuilder.filter().add(procDefKeySubQuery);
         }
-        if (!StringUtils.isEmpty(activityId)) {
-            boolQueryBuilder.filter()
-                    .add(QueryBuilders.matchPhraseQuery(KibanaConfiguration.ACTIVITY_ID, activityId));
+        if (activityIds != null) {
+            val activitySubQuery = QueryBuilders.boolQuery();
+
+            activityIds.forEach(activityId ->
+                    activitySubQuery.should()
+                            .add(QueryBuilders.matchPhraseQuery(KibanaConfiguration.ACTIVITY_ID, activityId)));
+
+            boolQueryBuilder.filter().add(activitySubQuery);
         }
 
         val searchSourceBuilder = new SearchSourceBuilder();

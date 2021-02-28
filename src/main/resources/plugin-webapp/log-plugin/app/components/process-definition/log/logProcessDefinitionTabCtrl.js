@@ -14,14 +14,10 @@ ngDefine('cockpit.plugin.log-plugin.log', (module) => {
         $scope.onSortChanged = (sorting) => {};
         $scope.onSortInitialized = (sorting) => {};
 
-        const setLogs = (businessKey, activityId, procInstBusinessKey) => {
+        const setLogs = (filterParams) => {
             $scope.loadingState = configFactory.loadingState;
             $scope.logs = null;
-            dataFactory.fetchLogs({
-                "processDefinitionKey": businessKey,
-                "activityId": activityId,
-                "businessKey": procInstBusinessKey
-            }).then(() => {
+            dataFactory.fetchLogs(filterParams).then(() => {
                 $scope.logs = dataFactory.logs;
                 $scope.loadingState = configFactory.loadedState;
             });
@@ -30,17 +26,21 @@ ngDefine('cockpit.plugin.log-plugin.log', (module) => {
         $scope.onSearchChange = (query, pages) => {
             $scope.processInstanceBusinessKey = query.businessKey;
             return setLogs(
-                $scope.processDefinition.key,
-                $scope.filter.scrollToBpmnElement,
-                $scope.processInstanceBusinessKey
+                {
+                    "processDefinitionKey": $scope.processDefinition.key,
+                    "activityId": $scope.filter.scrollToBpmnElement,
+                    "businessKey": $scope.processInstanceBusinessKey
+                }
             );
         };
         $scope.$watch('filter', (oldValue, newValue) => {
             if (newValue) {
                 setLogs(
-                    $scope.processDefinition.key,
-                    $scope.filter.scrollToBpmnElement,
-                    $scope.processInstanceBusinessKey
+                    {
+                        "processDefinitionKey": $scope.processDefinition.key,
+                        "activityId": $scope.filter.scrollToBpmnElement,
+                        "businessKey": $scope.processInstanceBusinessKey
+                    }
                 );
             }
         });
