@@ -1,5 +1,6 @@
 package ru.domclick.cockpit.plugin.log.configuration;
 
+import org.elasticsearch.common.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +16,7 @@ public class KibanaConfiguration {
     public static Integer PORT = 9200;
     public static String USERNAME = "";
     public static String PASSWORD = "";
+    public static String[] INDICES = Strings.EMPTY_ARRAY;
     public static X509TrustManager TRUST_MANAGER = null;
     public static String BUSINESS_KEY = "";
     public static String SCENARIO_ID = "";
@@ -45,6 +47,11 @@ public class KibanaConfiguration {
     @Value("${kibana.password}")
     public void setPassword(String password) {
         PASSWORD = password;
+    }
+
+    @Value("${kibana.indices}")
+    public void setIndices(String[] indices) {
+        INDICES = indices;
     }
 
     @Value("${kibana.trust-manager:ru.domclick.cockpit.plugin.log.ssl.TrustAllManager}")

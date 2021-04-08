@@ -93,7 +93,7 @@ public class LogSearchQuery implements AutoCloseable {
         searchSourceBuilder.size(50);
         searchSourceBuilder.sort(new FieldSortBuilder(LogFilterParamConfiguration.TIMESTAMP).order(SortOrder.ASC));
 
-        val searchRequest = new SearchRequest();
+        val searchRequest = new SearchRequest(KibanaConfiguration.INDICES);
         searchRequest.source(searchSourceBuilder);
         try {
             return client.search(searchRequest, RequestOptions.DEFAULT).getHits();
