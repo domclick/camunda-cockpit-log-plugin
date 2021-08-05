@@ -25,7 +25,7 @@ ngDefine('cockpit.plugin.log-plugin.log', (module) => {
 
         $scope.onSearchChange = (query, pages) => {
             $scope.processInstanceBusinessKey = query.businessKey;
-            return setLogs(
+            setLogs(
                 {
                     "processDefinitionKey": $scope.processDefinition.key,
                     "activityId": $scope.filter.scrollToBpmnElement,

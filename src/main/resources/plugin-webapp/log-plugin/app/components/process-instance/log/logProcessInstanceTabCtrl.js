@@ -8,17 +8,27 @@ ngDefine('cockpit.plugin.log-plugin.log', (module) => {
             });
         };
 
-        setLogs({
+        const processDefinitionKeyByDefinitionId = (definitionId) => {
+            return definitionId.substring(0, definitionId.indexOf(':'));
+        };
+
+        setLogs(
+            {
+                "processDefinitionKey": processDefinitionKeyByDefinitionId($scope.processInstance.definitionId),
                 "businessKey": $scope.processInstance.businessKey,
                 "activityId": $scope.filter.activityIds[0]
-        });
+            }
+        );
 
         $scope.$watch('filter', (oldValue, newValue) => {
             if (newValue) {
-                setLogs({
-                    "businessKey": $scope.processInstance.businessKey,
-                    "activityId": $scope.filter.activityIds[0]
-                });
+                setLogs(
+                    {
+                        "processDefinitionKey": processDefinitionKeyByDefinitionId($scope.processInstance.definitionId),
+                        "businessKey": $scope.processInstance.businessKey,
+                        "activityId": $scope.filter.activityIds[0]
+                    }
+                );
             }
         });
     }]);
